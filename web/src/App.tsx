@@ -1,24 +1,16 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import type { FormEvent } from 'react'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { LeadSchema, SyncPayloadSchema } from './types/schemas'
+import type { Lead, LeadStatus } from './types/schemas'
+import { supabase } from './lib/supabase'
 import './App.css'
-
-type LeadStatus = 'Lead' | 'Contato' | 'Proposta' | 'Fechado'
-
-type Lead = {
-  id: number
-  company: string
-  contact: string
-  segment: string
-  value: number
-  owner: string
-  status: LeadStatus
-  lastTouch: string
-}
 
 const initialLeads: Lead[] = [
   {
     id: 1,
-    company: 'Nova Finance',
+    company: 'Nova Finance (Demo)',
     contact: 'Bianca Ribeiro',
     segment: 'Fintech',
     value: 92000,
@@ -28,33 +20,13 @@ const initialLeads: Lead[] = [
   },
   {
     id: 2,
-    company: 'OrbitLog',
+    company: 'OrbitLog (Demo)',
     contact: 'Rafael Costa',
     segment: 'Logistica',
     value: 51000,
     owner: 'Murilo',
     status: 'Contato',
     lastTouch: '2026-03-26',
-  },
-  {
-    id: 3,
-    company: 'Pulse Health',
-    contact: 'Vanessa Nunes',
-    segment: 'Saude',
-    value: 78000,
-    owner: 'Patricia',
-    status: 'Lead',
-    lastTouch: '2026-03-25',
-  },
-  {
-    id: 4,
-    company: 'Aether Retail',
-    contact: 'Joao Martins',
-    segment: 'Varejo',
-    value: 140000,
-    owner: 'Patricia',
-    status: 'Fechado',
-    lastTouch: '2026-03-24',
   },
 ]
 
@@ -65,11 +37,41 @@ const formatCurrency = (amount: number) =>
     maximumFractionDigits: 0,
   }).format(amount)
 
-function App() {
-  const [leads] = useState(initialLeads)
+function Dashboard() {
+  const { user, signOut } = useAuth()
+  const [leads, setLeads] = useState<Lead[]>([])
+  const [loading, setLoading] = useState(true)
   const [segmentFilter, setSegmentFilter] = useState('Todos')
   const [n8nWebhook, setN8nWebhook] = useState('')
   const [syncMessage, setSyncMessage] = useState('Conecte seu webhook n8n para iniciar automacoes.')
+
+  // Carregar dados reais do Supabase (com proteção RLS)
+  useEffect(() => {
+    async function loadLeads() {
+      // Se for usuário demo, carrega os mocks
+      if (user?.id === 'demo-123') {
+        setLeads(initialLeads)
+        setLoading(false)
+        return
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('leads')
+          .select('*')
+          .order('created_at', { ascending: false })
+
+        if (error) throw error
+        setLeads(data || [])
+      } catch (err) {
+        console.error('Erro ao carregar leads reais:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadLeads()
+  }, [user])
 
   const filteredLeads = useMemo(() => {
     if (segmentFilter === 'Todos') return leads
@@ -106,22 +108,26 @@ function App() {
         leads: filteredLeads,
       }
 
+      const validation = SyncPayloadSchema.safeParse(payload)
+      if (!validation.success) {
+        setSyncMessage('Erro de segurança: Dados corrompidos detectados.')
+        return
+      }
+
       const response = await fetch(n8nWebhook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(validation.data),
       })
 
-      if (!response.ok) {
-        throw new Error(`Webhook retornou ${response.status}`)
-      }
-
+      if (!response.ok) throw new Error(`Status ${response.status}`)
       setSyncMessage('Sincronizacao enviada para o n8n com sucesso.')
     } catch (error) {
-      const detail = error instanceof Error ? error.message : 'Erro desconhecido'
-      setSyncMessage(`Falha ao sincronizar com n8n: ${detail}`)
+      setSyncMessage(`Falha ao sincronizar: ${error instanceof Error ? error.message : 'Erro desconhecido'}`)
     }
   }
+
+  if (loading) return <div className="loading-screen">Descriptografando dados...</div>
 
   return (
     <main className="crm-shell">
@@ -130,7 +136,10 @@ function App() {
           <p className="eyebrow">AIOX CRM HUB</p>
           <h1>CRM Futuristico + n8n</h1>
         </div>
-        <div className="status-pill">Status: Online</div>
+        <div className="user-info" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <span className="status-pill">{user?.id === 'demo-123' ? 'Modo: Demonstração' : `User: ${user?.email}`}</span>
+          <button onClick={signOut} className="btn-secondary">Encerrar Sessão</button>
+        </div>
       </header>
 
       <section className="kpi-grid">
@@ -230,6 +239,16 @@ function App() {
         </div>
       </section>
     </main>
+  )
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    </AuthProvider>
   )
 }
 
