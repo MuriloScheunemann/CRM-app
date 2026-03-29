@@ -1,0 +1,207 @@
+.crm-shell {
+  width: min(1200px, 94vw);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #7dd3fc;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 2vw, 2.1rem);
+}
+
+h2 {
+  font-size: 1.1rem;
+}
+
+.status-pill {
+  background: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(74, 222, 128, 0.5);
+  color: #bbf7d0;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.card,
+.panel {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(3, 7, 18, 0.92));
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 14px;
+  box-shadow: 0 0 32px rgba(56, 189, 248, 0.14);
+}
+
+.card {
+  padding: 1rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.card strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.2rem;
+  color: #f0f9ff;
+}
+
+.panel {
+  padding: 1rem;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 0.8rem;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+select,
+input,
+button {
+  font: inherit;
+}
+
+select,
+input {
+  background: rgba(15, 23, 42, 0.7);
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+}
+
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.column {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  padding: 0.55rem;
+}
+
+.column h3 {
+  font-size: 0.85rem;
+  margin-bottom: 0.55rem;
+  color: #7dd3fc;
+}
+
+.lead-card {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: 10px;
+  padding: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.lead-card p {
+  margin: 0;
+  font-size: 0.74rem;
+}
+
+.lead-card .company {
+  color: #e2e8f0;
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.n8n-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+button {
+  background: linear-gradient(90deg, #06b6d4, #6366f1);
+  color: #f8fafc;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.sync-message {
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
+  color: #93c5fd;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 0.85rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.65rem 0.45rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+th {
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+td {
+  color: #cbd5e1;
+}
+
+@media (max-width: 1000px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kanban {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
