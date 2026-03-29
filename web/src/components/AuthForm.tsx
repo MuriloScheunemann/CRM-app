@@ -34,7 +34,7 @@ export const AuthForm: React.FC = () => {
   return (
     <div className="auth-card">
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <p className="eyebrow">AIOX SECURE ACCESS</p>
+        <p className="eyebrow">B2B CRM · ACESSO</p>
         <h2 style={{ fontSize: '1.8rem', fontWeight: 800, marginTop: '0.5rem' }}>
           {isSignUp ? 'Criar Conta' : 'Conectar ao Hub'}
         </h2>

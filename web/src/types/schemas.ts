@@ -1,4 +1,4 @@
-﻿import { z } from 'zod'
+import { z } from 'zod'
 
 export const LeadStatusSchema = z.enum(['Lead', 'Contato', 'Proposta', 'Fechado'])
 
@@ -14,7 +14,7 @@ export const LeadSchema = z.object({
 })
 
 export const SyncPayloadSchema = z.object({
-  source: z.literal('crm-n8n-futuristico'),
+  source: z.literal('b2b-crm'),
   sentAt: z.string().datetime(),
   totals: z.object({
     leads: z.number().nonnegative(),

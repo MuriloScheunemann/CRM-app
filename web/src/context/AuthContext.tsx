@@ -19,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     // Verificar se existe usuário demo no session storage
-    const demoUser = sessionStorage.getItem('aiox_demo_user')
+    const demoUser = sessionStorage.getItem('b2b_crm_demo_user')
     if (demoUser) {
       setUser(JSON.parse(demoUser))
       setLoading(false)
@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       aud: 'authenticated',
       created_at: new Date().toISOString()
     } as any
-    sessionStorage.setItem('aiox_demo_user', JSON.stringify(fakeUser))
+    sessionStorage.setItem('b2b_crm_demo_user', JSON.stringify(fakeUser))
     setUser(fakeUser)
   }
 
