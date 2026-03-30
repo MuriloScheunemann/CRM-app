@@ -65,6 +65,13 @@ function IconMegaphone() {
     </svg>
   )
 }
+function IconClipboard() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2m-6 9h6m-6 4h6" />
+    </svg>
+  )
+}
 
 const sections: { label: string; items: { id: CrmPage; label: string; icon: ReactNode }[] }[] = [
   {
@@ -74,6 +81,7 @@ const sections: { label: string; items: { id: CrmPage; label: string; icon: Reac
       { id: 'pipeline', label: 'Funil', icon: <IconColumns /> },
       { id: 'companies', label: 'Empresas', icon: <IconBuilding /> },
       { id: 'contacts', label: 'Contatos', icon: <IconUser /> },
+      { id: 'forms', label: 'Formulários', icon: <IconClipboard /> },
       { id: 'activities', label: 'Atividades', icon: <IconCalendar /> },
     ],
   },

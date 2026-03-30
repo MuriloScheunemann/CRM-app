@@ -21,6 +21,7 @@ export function ContactsView({ leads }: Props) {
                 <th>Empresa</th>
                 <th>Cargo implícito</th>
                 <th>Estágio</th>
+                <th>Origem</th>
                 <th>Valor</th>
               </tr>
             </thead>
@@ -31,6 +32,7 @@ export function ContactsView({ leads }: Props) {
                   <td>{l.company}</td>
                   <td>Decisor</td>
                   <td>{l.status}</td>
+                  <td>{l.leadSource === 'form' ? <span className="status-pill">Formulário</span> : 'CRM'}</td>
                   <td>{formatCurrency(l.value)}</td>
                 </tr>
               ))}

@@ -1,18 +1,7 @@
 import { useMemo, useState } from 'react'
+import { CRM_SEGMENTS } from '../constants/segments'
 
-const SEGMENTS = [
-  'Todos',
-  'Fintech',
-  'Logistica',
-  'Saude',
-  'Varejo',
-  'Manufatura',
-  'Cloud',
-  'Servicos',
-  'Educacao',
-  'Agronegocio',
-  'Enterprise',
-] as const
+const SEGMENTS = ['Todos', ...CRM_SEGMENTS] as const
 
 type ChannelId = 'email' | 'omni'
 
@@ -227,6 +216,9 @@ export function CampaignManager() {
                     </button>
                   ))}
                 </div>
+                <p className="chart-caption" style={{ marginTop: '0.75rem' }}>
+                  Leads qualificados pelos <strong>Formulários</strong> já entram com segmento definido — use o mesmo segmento aqui para campanhas direcionadas.
+                </p>
 
                 <p className="campaign-label campaign-label-spaced">Canal de saída</p>
                 <div className="campaign-channel-row">
